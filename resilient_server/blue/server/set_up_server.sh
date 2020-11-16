@@ -74,6 +74,24 @@ echo "------------ Installing libapache2-mod-qos ------------"
 ssh -tt "$ssh_user" "ssh -tt $project 'sudo apt install libapache2-mod-qos; exit;' exit;"
 
 scp "$file_path" "$ssh_user$deter_user_path"
-ssh -tt "$ssh_user" "ssh -tt $project 'sudo cp qos.conf $path_to_mod; sudo service apache2 restart; exit;' exit;"
-echo "------------ libapache2-mod-qos Installed------------"
+ssh -tt "$ssh_user" "ssh -tt $project 'sudo cp qos.conf $path_to_mod; exit;' exit;"
+echo -e "------------- libapache2-mod-qos Installed -------------\n"
+
+echo "--------------- Installing mod Security ---------------"
+# Create the paths to run the commands
+file_path=$(calc_path "$reference_path")    # Create the path on which the commands are going to be run
+file_path="$file_path/blue/server/modsecurity.conf" # In case only blue wants to be sent
+path_to_modsec="/etc/modsecurity/"
+
+echo "$file_path" "$ssh_user$deter_user_path"
+
+ssh -tt "$ssh_user" "ssh -tt $project 'sudo apt install libapache2-mod-security2; sudo service apache2 restart; exit;' exit;"
+
+scp "$file_path" "$ssh_user$deter_user_path"
+
+# ssh -tt "$ssh_user" "ssh -tt $project 'sudo cp modsecurity.conf $path_to_modsec; sudo service apache2 restart; exit;' exit;"
+
+
+
+
 
